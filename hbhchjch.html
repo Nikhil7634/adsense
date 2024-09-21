@@ -1,0 +1,294 @@
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url("pexels-philipp-pistis-10963241.jpg");
+            align-items: center;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: rgb(255, 248, 248);
+           
+            
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.512);
+            background-color: rgba(87, 80, 80, 0.374);
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+        }
+
+        .container:hover {
+            transform: rotateY(5deg);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            transform: perspective(1000px) rotateX(10deg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        #scoreBox {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+
+<body>
+    <div class="container">
+        <h1><b>AdSENSE ELIGIBILITY CHECKER</b></h1>
+        <div>
+            <label for="websiteUrl">Website URL:</label>
+            <input type="text" id="websiteUrl" placeholder="Enter your website URL">
+            <span id="domainStatus"></span>
+        </div>
+        <button onclick="showForm()">Check Eligibility</button>
+        <div id="formContainer" style="display: none;">
+            <form id="userForm">
+                <div>
+                    <label for="websiteName">Website Name:</label>
+                    <input type="text" id="websiteName" required>
+                </div>
+                <div>
+                    <label for="websiteTitle">Website Title:</label>
+                    <input type="text" id="websiteTitle" required>
+                    <div id="titleErrorMessage" class="error-message"></div>
+                </div>
+                <div>
+                    <label for="websiteDescription">Website Description:</label>
+                    <input type="text" id="websiteDescription" required>
+                    <div id="descriptionErrorMessage" class="error-message"></div>
+                </div>
+                <div>
+                    <label for="traffic">Traffic:</label>
+                    <select id="traffic" required>
+                        <option value="500">500 visitors/day</option>
+                        <option value="1000">1000 visitors/day</option>
+                        <option value="5000">5000 visitors/day</option>
+                    </select>
+                    <span id="trafficMessage"></span>
+                </div>
+                <div>
+                    <label for="articles">Number of Articles:</label>
+                    <select id="articles" required>
+                        <option value="10">10 articles</option>
+                        <option value="20">20 articles</option>
+                        <option value="30">30 articles</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="hasSlider">Has Slider:</label>
+                    <select id="hasSlider" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <span id="sliderMessage"></span>
+                </div>
+                <div>
+                    <label for="hasPolicyPage">Has Policy Page:</label>
+                    <input type="checkbox" id="hasPolicyPage">
+                    <label for="hasPolicyPage">Yes</label>
+                    <span id="policyPageMessage"></span>
+                </div>
+                <div>
+                    <label for="hasCanonicalURL">Has Canonical URL:</label>
+                    <select id="hasCanonicalURL" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <span id="canonicalURLMessage"></span>
+                </div>
+                <div>
+                    <label for="hasInappropriateContent">Contains Inappropriate Content:</label>
+                    <select id="hasInappropriateContent" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <span id="inappropriateContentMessage"></span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div id="result"></div>
+        <div id="scoreBox"></div>
+    </div>
+
+    <script>
+        function showForm() {
+            const websiteUrl = document.getElementById('websiteUrl').value;
+            const domainStatus = document.getElementById('domainStatus');
+
+            if (websiteUrl.endsWith('.com') || websiteUrl.endsWith('.in')) {
+                domainStatus.innerHTML = '<span style="color: green;">Good domain</span>';
+            } else {
+                domainStatus.innerHTML = 'Please consider changing your domain to .com or .in';
+            }
+
+            document.getElementById('formContainer').style.display = 'block';
+        }
+
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            analyzeWebsite();
+        });
+
+        function analyzeWebsite() {
+            const websiteUrl = document.getElementById('websiteUrl').value;
+            const websiteName = document.getElementById('websiteName').value;
+            const websiteTitle
+
+ = document.getElementById('websiteTitle').value;
+            const websiteDescription = document.getElementById('websiteDescription').value;
+            const traffic = document.getElementById('traffic').value;
+            const articles = document.getElementById('articles').value;
+            const hasSlider = document.getElementById('hasSlider').value;
+            const hasPolicyPage = document.getElementById('hasPolicyPage').checked;
+            const hasCanonicalURL = document.getElementById('hasCanonicalURL').value;
+            const hasInappropriateContent = document.getElementById('hasInappropriateContent').value;
+
+            let score = 0;
+            let message = '';
+
+            // Domain check
+            if (websiteUrl.endsWith('.com') || websiteUrl.endsWith('.in')) {
+                score += 10;
+            }
+
+            // Website title check
+            if (websiteTitle.length >= 60) {
+                score += 20;
+            } else if (websiteTitle.length > 0) {
+                message += 'Website title should be at least 60 characters long. ';
+                document.getElementById('titleErrorMessage').innerText = 'Title is too short';
+            } else {
+                document.getElementById('titleErrorMessage').innerText = '';
+            }
+
+            // Website description check
+            if (websiteDescription.length >= 150) {
+                score +=
+
+ 10;
+            } else if (websiteDescription.length > 0) {
+                message += 'Website description should be at least 150 characters long. ';
+                document.getElementById('descriptionErrorMessage').innerText = 'Description is too short';
+            } else {
+                document.getElementById('descriptionErrorMessage').innerText = '';
+            }
+
+            // Traffic check
+            if (traffic >= 1000) {
+                score += 20;
+            } else if (traffic >= 500) {
+                score += 10;
+            }
+
+            // Article check
+            if (articles >= 30) {
+                score += 50;
+            } else if (articles >= 20) {
+                score += 30;
+            } else if (articles >= 10) {
+                score += 10;
+            }
+
+            // Slider check
+            if (hasSlider === 'no') {
+                score += 10;
+            }
+
+            // Policy page check
+            if (hasPolicyPage) {
+                score += 30;
+            } else {
+                message += 'Create a policy page including About Us, Contact Us, and Privacy Policy. ';
+            }
+
+            // Canonical URL check
+            if (hasCanonicalURL === 'yes') {
+                score += 10;
+            } else {
+                message += 'Add canonical URL to your website. ';
+            }
+
+            // Inappropriate content check
+            if (hasInappropriateContent === 'no') {
+                score += 10;
+            } else {
+                message += 'Remove inappropriate content from your website. ';
+            }
+
+            displayResult(score, message);
+        }
+
+        function displayResult(score, message) {
+            const resultElement = document.getElementById('result');
+            if (score >= 100) {
+                resultElement.innerHTML = '<span style="color: green; font-size: 24px;">Congratulations! Your website is likely to get AdSense approval.</span>';
+            } else if (score >= 80) {
+                resultElement.innerHTML = '<span style="color: blue; font-size: 24px;">Your website is almost ready for AdSense approval.</span>';
+            } else {
+                resultElement.innerHTML = '<span style="color: red; font-size: 24px;">Your website may need improvements before applying for AdSense.</span>';
+            }
+            resultElement.innerHTML += '<br>' + message;
+
+            const scoreBox = document.getElementById('scoreBox');
+            scoreBox.innerHTML = '<span style="font-size: 20px;">Website Score: ' + score + '</span>';
+        }
+    </script>
