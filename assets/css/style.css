@@ -9090,3 +9090,49 @@ blockquote cite {
   filter: hue-rotate(207deg);
   opacity: 0.5;
 }
+.adsensebox{
+  display: flex;
+  align-items: start !important;
+  gap: 30px;
+  padding-inline: 2%;
+ 
+}
+.results{
+  width: 100% !important;
+  background: white;
+  display: flex !important;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 100px;
+  flex-flow: column;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.results span{
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#scoreBox{
+  margin-top: 10px;
+   padding: 10px;
+  border-radius: 10px;
+ 
+}
+#scoreBox span{
+  margin: 0 !important;
+  
+}
+@media(max-width: 710px){
+  .adsensebox{
+    flex-wrap: wrap-reverse;
+  }
+  .results{
+    transform: scale(0.5);
+   
+  }
+}
+ 
