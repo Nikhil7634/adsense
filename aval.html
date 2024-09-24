@@ -316,11 +316,13 @@
               <select id="hasInappropriateContent" required>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
-                
               </select>
               <span id="inappropriateContentMessage"></span>
             </div>
-            <button type="submit" class="checkinga">Submit</button>
+ 
+            <button class="checkinga" id="downloadReportBtn" onclick="downloadReport()">
+              Download Report
+            </button>
           </form>
         </div>
       </div>
@@ -688,6 +690,8 @@
     </div>
     <!--====== APPIE BACK TO TOP PART ENDS ======-->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
       function showForm() {
         const websiteUrl = document.getElementById("websiteUrl").value;
@@ -706,6 +710,40 @@
 
       // Event listener to trigger live check when typing in the domain field
       document.getElementById("websiteUrl").addEventListener("input", showForm);
+      async function downloadReport() {
+        const { jsPDF } = window.jspdf; // Access jsPDF from the global scope
+
+        const websiteUrl = document.getElementById("websiteUrl").value;
+        const websiteTitle = document.getElementById("websiteTitle").value;
+        const websiteDescription =
+          document.getElementById("websiteDescription").value;
+        const traffic = document.getElementById("traffic").value;
+        const articles = document.getElementById("articles").value;
+        const resultText = document.getElementById("result").innerText;
+        const scoreText = document.getElementById("scoreBox").innerText;
+
+        // Create the PDF document
+        const doc = new jsPDF();
+
+        // Set the content for the PDF
+        doc.setFontSize(16);
+        doc.text("Website Report", 10, 10);
+        doc.setFontSize(12);
+        doc.text(`-------------------------`, 10, 15);
+        doc.text(`URL: ${websiteUrl}`, 10, 25);
+        doc.text(`Title: ${websiteTitle}`, 10, 35);
+        doc.text(`Description: ${websiteDescription}`, 10, 45);
+        doc.text(`Traffic: ${traffic}`, 10, 55);
+        doc.text(`Articles: ${articles}`, 10, 65);
+        doc.text(`-------------------------`, 10, 85);
+
+        doc.setFontSize(14);
+        doc.text(resultText, 10, 95);
+        doc.text(scoreText, 10, 105);
+
+        // Save the PDF document with a custom filename
+        doc.save("website_report.pdf");
+      }
 
       // Function to calculate pixel width of text
       function getTextWidth(text, font) {
@@ -720,6 +758,7 @@
         input.addEventListener("input", analyzeWebsite);
         input.addEventListener("change", analyzeWebsite); // Add change event for selects
       });
+
       function analyzeWebsite() {
         const websiteUrl = document.getElementById("websiteUrl").value;
         const websiteTitle = document.getElementById("websiteTitle").value;
