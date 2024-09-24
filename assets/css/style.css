@@ -9188,12 +9188,12 @@ blockquote cite {
     padding: 30px 15px;
   }
   .ulrdot{
-    height: 15px;
-    width: 15px;
+    height: 11px;
+    width: 11px;
     background: lime;
     position: absolute;
-    right: -20px;
-    top: 53px;
+    right: -14px;
+    top: 55px;
     border-radius: 50%;
     display: none;
   }
