@@ -212,10 +212,14 @@
       class="appie-service-area appie-service-5-area pt-190 pb-100 adsensebox"
       id="service"
     >
-      <div class="container col-md-6 contact-form">
-        <h1 style="margin: auto; text-align: center; margin-bottom: 40px">
-          <b>AdSENSE ELIGIBILITY CHECKER</b>
-        </h1>
+      <div class="container col-md-8 contact-form">
+        <h2
+          class="appie-title"
+          style="margin: auto; text-align: center; margin-bottom: 40px"
+        >
+          <b>ADSENSE ELIGIBILITY CHECKER</b>
+        </h2>
+
         <div>
           <label for="websiteUrl">Website URL:</label>
           <input
@@ -271,27 +275,33 @@
               </select>
               <span id="sliderMessage"></span>
             </div>
-            <div>
-              <label for="hasPolicyPage">Has Policy Page:</label>
-              <input type="checkbox" id="hasPolicyPage" />
-              <label for="hasPolicyPage">Yes</label>
-              <span id="policyPageMessage"></span>
-              <br>
+            <div class="choosebox">
+              <div>
+                <label for="hasPolicyPage">Has Policy Page:</label>
+                <input type="checkbox" id="hasPolicyPage" />
+                <label for="hasPolicyPage">Yes</label>
+                <span id="policyPageMessage"></span>
+              </div>
 
-              <label for="aboutPage">About Us Page:</label>
-              <input type="checkbox" id="aboutPage" name="aboutPage" />  Yes<br />
+              <div>
+                <label for="aboutPage">About Us Page:</label>
+                <input type="checkbox" id="aboutPage" name="aboutPage" />
+                Yes
+              </div>
 
-              <label for="contactPage">Contact Us Page:</label>
-              <input type="checkbox" id="contactPage" name="contactPage" />
-               Yes<br />
+              <div>
+                <label for="contactPage">Contact Us Page:</label>
+                <input type="checkbox" id="contactPage" name="contactPage" />
+                Yes
+              </div>
 
-             <div style="display: none;">
-                <label for="privacyPage">Privacy Policy Page:</label>
+              <div>
+                <label for="privacyPage">Term and Conditions:</label>
                 <input type="checkbox" id="privacyPage" name="privacyPage" />
-                 Yes<br />
-             </div>
+                Yes
+              </div>
             </div>
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 30px">
               <label for="hasCanonicalURL">Has Canonical URL:</label>
               <select id="hasCanonicalURL" required>
                 <option value="no">No</option>
@@ -299,13 +309,14 @@
               </select>
               <span id="canonicalURLMessage"></span>
             </div>
-            <div style="display: none">
+            <div>
               <label for="hasInappropriateContent"
-                >Contains Inappropriate Content:</label
+                >Do you do image seo ?:</label
               >
               <select id="hasInappropriateContent" required>
-                <option value="yes">Yes</option>
                 <option value="no">No</option>
+                <option value="yes">Yes</option>
+                
               </select>
               <span id="inappropriateContentMessage"></span>
             </div>
@@ -314,7 +325,7 @@
         </div>
       </div>
 
-      <div class="container results">
+      <div class="results">
         <div class="progress-circle" id="progressCircle">
           <svg width="150" height="150" viewBox="0 0 150 150">
             <circle cx="75" cy="75" r="70" class="circle-bg" />
@@ -709,7 +720,6 @@
         input.addEventListener("input", analyzeWebsite);
         input.addEventListener("change", analyzeWebsite); // Add change event for selects
       });
-
       function analyzeWebsite() {
         const websiteUrl = document.getElementById("websiteUrl").value;
         const websiteTitle = document.getElementById("websiteTitle").value;
@@ -725,113 +735,165 @@
 
         const hasCanonicalURL =
           document.getElementById("hasCanonicalURL").value;
-        const hasInappropriateContent = document.getElementById(
-          "hasInappropriateContent"
-        ).value;
+        const titleField = document.getElementById("websiteTitle");
+        const descriptionField = document.getElementById("websiteDescription");
+        const trafficField = document.getElementById("traffic");
+        const articlesField = document.getElementById("articles");
 
-        // Font size and style for measurement (modify according to your site's styling)
         const titleFont = "bold 16px Arial";
         const descriptionFont = "14px Arial";
-
         let score = 0;
         let message = "";
 
         // Domain check
         if (websiteUrl.endsWith(".com") || websiteUrl.endsWith(".in")) {
           score += 10;
+          document.getElementById("websiteUrl").style.borderColor = "green";
+        } else {
+          document.getElementById("websiteUrl").style.borderColor = "red";
         }
 
         // Website title check in pixels (desired width: 250px to 600px)
         const titleWidth = getTextWidth(websiteTitle, titleFont);
         if (titleWidth >= 250 && titleWidth <= 600) {
           score += 10;
+          titleField.style.borderColor = "green"; // Turn green for valid input
           document.getElementById("titleErrorMessage").innerText = "";
         } else if (titleWidth > 600) {
+          titleField.style.borderColor = "red"; // Turn red for invalid input
           message += `Website title should not exceed 600px in width (Current: ${titleWidth}px). `;
           document.getElementById(
             "titleErrorMessage"
           ).innerText = `Title width is too long (${titleWidth}px).`;
-          document.getElementById("titleErrorMessage").style.color = "red"; // Display error message in red
+          document.getElementById("titleErrorMessage").style.color = "red";
         } else if (websiteTitle.length > 0) {
+          titleField.style.borderColor = "red"; // Turn red for invalid input
           message += `Website title should be at least 250px wide (Current: ${titleWidth}px). `;
           document.getElementById(
             "titleErrorMessage"
           ).innerText = `Title width is too short (${titleWidth}px).`;
-          document.getElementById("titleErrorMessage").style.color = "red"; // Display error message in red
+          document.getElementById("titleErrorMessage").style.color = "red";
         }
 
-        // Website description check in pixels (desired width: 450px or more)
+        // Website description check in pixels (desired width: 450px to 900px)
         const descriptionWidth = getTextWidth(
           websiteDescription,
           descriptionFont
         );
-        if (descriptionWidth >= 450) {
+        if (descriptionWidth >= 450 && descriptionWidth <= 900) {
           score += 10;
+          descriptionField.style.borderColor = "green"; // Turn green for valid input
           document.getElementById("descriptionErrorMessage").innerText = "";
-        } else if (websiteDescription.length > 0) {
+        } else if (descriptionWidth < 450) {
+          descriptionField.style.borderColor = "red"; // Turn red for invalid input
           message += `Website description should be at least 450px wide (Current: ${descriptionWidth}px). `;
           document.getElementById(
             "descriptionErrorMessage"
           ).innerText = `Description width is too short (${descriptionWidth}px).`;
           document.getElementById("descriptionErrorMessage").style.color =
-            "red"; // Display error message in red
+            "red";
+        } else if (descriptionWidth > 900) {
+          descriptionField.style.borderColor = "red"; // Turn red for invalid input
+          message += `Website description should not exceed 900px in width (Current: ${descriptionWidth}px). `;
+          document.getElementById(
+            "descriptionErrorMessage"
+          ).innerText = `Description width is too long (${descriptionWidth}px).`;
+          document.getElementById("descriptionErrorMessage").style.color =
+            "red";
         }
 
         // Traffic check
         if (traffic >= 5000) {
-          score += 20;
+          score += 15;
+          trafficField.style.borderColor = "green";
         } else if (traffic >= 1000) {
           score += 10;
+          trafficField.style.borderColor = "green";
         } else if (traffic >= 500) {
-          score += 0;
+          trafficField.style.borderColor = "orange"; // Warning color
+        } else {
+          trafficField.style.borderColor = "red";
         }
 
         // Article check
         if (articles >= 30) {
-          score += 20;
+          score += 15;
+          articlesField.style.borderColor = "green";
         } else if (articles >= 20) {
           score += 10;
+          articlesField.style.borderColor = "green";
         } else if (articles >= 10) {
-          score += 0;
+          articlesField.style.borderColor = "red";
         }
 
         // Slider check
+        const sliderField = document.getElementById("hasSlider");
         if (hasSlider === "no") {
           score += 10;
+          sliderField.style.borderColor = "green";
+        } else {
+          sliderField.style.borderColor = "red";
         }
 
         // Policy page check
+        const policyField = document.getElementById("hasPolicyPage");
         if (hasPolicyPage) {
-          score += 5;
+          score += 2.5;
+          policyField.style.borderColor = "green";
         } else {
+          policyField.style.borderColor = "red";
           message +=
-            "Create a policy page including About Us, Contact Us, and Privacy Policy. <br> ";
+            "Create a policy page including About Us, Contact Us, and Privacy Policy. <br>";
         }
 
         // Canonical URL check
+        const canonicalField = document.getElementById("hasCanonicalURL");
         if (hasCanonicalURL === "yes") {
           score += 10;
+          canonicalField.style.borderColor = "green";
         } else {
+          canonicalField.style.borderColor = "red";
           message += "Add canonical URL to your website. ";
         }
 
         // Additional pages check
+        const aboutField = document.getElementById("aboutPage");
+        const contactField = document.getElementById("contactPage");
+        const privacyField = document.getElementById("privacyPage");
+
         if (aboutPage) {
           score += 2.5;
-        }
-        if (contactPage) {
-          score += 2.5;
-        }
-        if (privacyPage) {
-          score += 5;
+          aboutField.style.borderColor = "green"; // Turn green for valid input
+        } else {
+          aboutField.style.borderColor = "red"; // Turn red for invalid input
         }
 
-        // // Inappropriate content check
-        // if (hasInappropriateContent === "no") {
-        //   score += 10;
-        // } else {
-        //   message += "Remove inappropriate content from your website. ";
-        // }
+        if (contactPage) {
+          score += 2.5;
+          contactField.style.borderColor = "green"; // Turn green for valid input
+        } else {
+          contactField.style.borderColor = "red"; // Turn red for invalid input
+        }
+
+        if (privacyPage) {
+          score += 2.5;
+          privacyField.style.borderColor = "green"; // Turn green for valid input
+        } else {
+          privacyField.style.borderColor = "red"; // Turn red for invalid input
+        }
+
+        const inappropriateContentField = document.getElementById(
+          "hasInappropriateContent"
+        );
+        const hasInappropriateContent = inappropriateContentField.value;
+
+        if (hasInappropriateContent === "yes") {
+          score += 10;
+          inappropriateContentField.style.borderColor = "green"; // Turn green for valid input
+        } else {
+          message += "Remove inappropriate content from your website. ";
+          inappropriateContentField.style.borderColor = "red"; // Turn red for invalid input
+        }
 
         displayResult(score, message);
       }

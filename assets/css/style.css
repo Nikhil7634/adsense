@@ -9095,10 +9095,11 @@ blockquote cite {
   align-items: start !important;
   gap: 30px;
   padding-inline: 2%;
+  position: relative;
  
 }
 .results{
-  width: 100% !important;
+  width: 100% ;
   background: white;
   display: flex !important;
   flex-wrap: wrap;
@@ -9109,6 +9110,7 @@ blockquote cite {
   justify-content: center;
   align-items: center;
   text-align: center;
+
 }
 
 .results span{
@@ -9129,10 +9131,33 @@ blockquote cite {
 @media(max-width: 710px){
   .adsensebox{
     flex-wrap: wrap-reverse;
+  
   }
   .results{
-    transform: scale(0.5);
-   
+    zoom: 0.5;
+    width: 40%;
+    top: 200px;
+    right: 0;
+    transform: translateX(160%);
+  }
+  #result{
+    display: none;
+  }
+  .contact-form{
+    padding: 0;
   }
 }
  
+.choosebox{
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+
+}
+.choosebox > div input{
+   
+  border: 2px solid;
+  background: red;
+  display: inline-block;
+}
+
