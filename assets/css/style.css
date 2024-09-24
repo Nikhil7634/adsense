@@ -9175,11 +9175,13 @@ blockquote cite {
   
   }
   .results{
-    zoom: 0.5;
-    width: 40%;
-    top: 200px;
-    right: 0;
-    transform: translateX(160%);
+    zoom: 0.3;
+    width: 25%;
+    left: 0;
+    position: fixed;
+    top: 85%;
+    height: max-content;
+    z-index: 1000;
   }
   #result{
     display: none;
@@ -9199,5 +9201,8 @@ blockquote cite {
   }
   .choosebox > div {
     zoom: 0.6;
+  }
+  #scoreBox {
+    display: none;
   }
 }
