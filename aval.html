@@ -45,8 +45,8 @@
     <style>
       .progress-circle {
         position: relative;
-        width: 150px;
-        height: 150px;
+        width: 250px;
+        height: 250px;
       }
 
       .progress-circle svg {
@@ -56,12 +56,12 @@
       .progress-circle .circle-bg {
         fill: none;
         stroke: #e6e6e6;
-        stroke-width: 10;
+        stroke-width: 20;
       }
 
       .progress-circle .circle {
         fill: none;
-        stroke-width: 10;
+        stroke-width: 20;
         stroke-linecap: round;
         stroke: red;
         stroke-dasharray: 440; /* Total circumference of the circle */
@@ -221,12 +221,14 @@
         </h2>
 
         <div>
-          <label for="websiteUrl">Website URL:</label>
+          <label for="websiteUrl">Domain Name:</label>
           <input
             type="text"
             id="websiteUrl"
             placeholder="Enter your website URL"
           />
+          <span class="ulrdot" id="ulrdot"></span>
+
           <span id="domainStatus"></span>
         </div>
         <button onclick="showForm()" class="checkinga" style="margin-top: 20px">
@@ -238,14 +240,17 @@
               <label for="websiteName">Website Name:</label>
               <input type="text" id="websiteName" required />
             </div>
+
             <div>
               <label for="websiteTitle">Website Title:</label>
               <input type="text" id="websiteTitle" required />
+              <span class="ulrdot" id="titledot"></span>
               <div id="titleErrorMessage" class="error-message"></div>
             </div>
             <div>
               <label for="websiteDescription">Website Description:</label>
               <input type="text" id="websiteDescription" required />
+              <span class="ulrdot" id="descriptiondot"></span>
               <div id="descriptionErrorMessage" class="error-message"></div>
             </div>
             <div>
@@ -256,6 +261,8 @@
                 <option value="1000">1000 visitors/Month</option>
                 <option value="5000">5000 visitors/Month</option>
               </select>
+              <span class="ulrdot" id="trafficdot"></span>
+
               <span id="trafficMessage"></span>
             </div>
             <div>
@@ -266,6 +273,8 @@
                 <option value="20">20 articles</option>
                 <option value="30">30 articles</option>
               </select>
+
+              <span class="ulrdot" id="articaldot"></span>
             </div>
             <div>
               <label for="hasSlider">Has Slider:</label>
@@ -273,11 +282,16 @@
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
               </select>
+              <span class="ulrdot" id="sliderdot"></span>
+
+
+
+             
               <span id="sliderMessage"></span>
             </div>
             <div class="choosebox">
               <div>
-                <label for="hasPolicyPage">Has Policy Page:</label>
+                <label for="hasPolicyPage">Privacy Policy:</label>
                 <input type="checkbox" id="hasPolicyPage" />
                 <label for="hasPolicyPage">Yes</label>
                 <span id="policyPageMessage"></span>
@@ -307,7 +321,11 @@
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
               </select>
-              <span id="canonicalURLMessage"></span>
+
+              <span class="ulrdot" id="hasCanonicaldot"></span>
+              
+
+               <span id="canonicalURLMessage"></span>
             </div>
             <div>
               <label for="hasInappropriateContent"
@@ -317,10 +335,15 @@
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
               </select>
+              <span class="ulrdot" id="Inappropriatedot"></span>
               <span id="inappropriateContentMessage"></span>
             </div>
- 
-            <button class="checkinga" id="downloadReportBtn" onclick="downloadReport()">
+
+            <button
+              class="checkinga"
+              id="downloadReportBtn"
+              onclick="downloadReport()"
+            >
               Download Report
             </button>
           </form>
@@ -329,11 +352,11 @@
 
       <div class="results">
         <div class="progress-circle" id="progressCircle">
-          <svg width="150" height="150" viewBox="0 0 150 150">
-            <circle cx="75" cy="75" r="70" class="circle-bg" />
+          <svg width="250" height="250" viewBox="0 0 220 220">
+            <circle cx="110" cy="110" r="70" class="circle-bg" />
             <circle
-              cx="75"
-              cy="75"
+              cx="110"
+              cy="110"
               r="70"
               class="circle"
               id="progressCirclePath"
@@ -788,8 +811,10 @@
         if (websiteUrl.endsWith(".com") || websiteUrl.endsWith(".in")) {
           score += 10;
           document.getElementById("websiteUrl").style.borderColor = "green";
+          document.getElementById("ulrdot").style.display = "inline-block";
         } else {
           document.getElementById("websiteUrl").style.borderColor = "red";
+          document.querySelector(".ulrdot").style.display = "none";
         }
 
         // Website title check in pixels (desired width: 250px to 600px)
@@ -798,8 +823,11 @@
           score += 10;
           titleField.style.borderColor = "green"; // Turn green for valid input
           document.getElementById("titleErrorMessage").innerText = "";
+          document.getElementById("titledot").style.display = "inline-block";
         } else if (titleWidth > 600) {
-          titleField.style.borderColor = "red"; // Turn red for invalid input
+          titleField.style.borderColor = "red";
+          // Turn red for invalid input
+          document.getElementById("titledot").style.display = "none";
           message += `Website title should not exceed 600px in width (Current: ${titleWidth}px). `;
           document.getElementById(
             "titleErrorMessage"
@@ -812,6 +840,7 @@
             "titleErrorMessage"
           ).innerText = `Title width is too short (${titleWidth}px).`;
           document.getElementById("titleErrorMessage").style.color = "red";
+          document.getElementById("titledot").style.display = "none";
         }
 
         // Website description check in pixels (desired width: 450px to 900px)
@@ -821,9 +850,13 @@
         );
         if (descriptionWidth >= 450 && descriptionWidth <= 900) {
           score += 10;
+          document.getElementById("descriptiondot").style.display =
+            "inline-block";
           descriptionField.style.borderColor = "green"; // Turn green for valid input
           document.getElementById("descriptionErrorMessage").innerText = "";
         } else if (descriptionWidth < 450) {
+          document.getElementById("descriptiondot").style.display = "none";
+
           descriptionField.style.borderColor = "red"; // Turn red for invalid input
           message += `Website description should be at least 450px wide (Current: ${descriptionWidth}px). `;
           document.getElementById(
@@ -832,6 +865,7 @@
           document.getElementById("descriptionErrorMessage").style.color =
             "red";
         } else if (descriptionWidth > 900) {
+          document.getElementById("descriptiondot").style.display = "none";
           descriptionField.style.borderColor = "red"; // Turn red for invalid input
           message += `Website description should not exceed 900px in width (Current: ${descriptionWidth}px). `;
           document.getElementById(
@@ -844,34 +878,49 @@
         // Traffic check
         if (traffic >= 5000) {
           score += 15;
+          document.getElementById("trafficdot").style.display = "inline-block";
+
           trafficField.style.borderColor = "green";
         } else if (traffic >= 1000) {
           score += 10;
+          document.getElementById("trafficdot").style.display = "inline-block";
           trafficField.style.borderColor = "green";
         } else if (traffic >= 500) {
+          document.getElementById("trafficdot").style.display = "none";
           trafficField.style.borderColor = "orange"; // Warning color
         } else {
+          document.getElementById("trafficdot").style.display = "none";
+
           trafficField.style.borderColor = "red";
         }
 
         // Article check
         if (articles >= 30) {
           score += 15;
+          document.getElementById("articaldot").style.display = "inline-block";
           articlesField.style.borderColor = "green";
         } else if (articles >= 20) {
           score += 10;
+          document.getElementById("articaldot").style.display = "inline-block";
           articlesField.style.borderColor = "green";
         } else if (articles >= 10) {
           articlesField.style.borderColor = "red";
+          document.getElementById("articaldot").style.display = "none";
+        } else {
+          articlesField.style.borderColor = "red";
+          document.getElementById("articaldot").style.display = "none";
         }
 
         // Slider check
         const sliderField = document.getElementById("hasSlider");
         if (hasSlider === "no") {
           score += 10;
+          document.getElementById("sliderdot").style.display = "inline-block";
           sliderField.style.borderColor = "green";
         } else {
           sliderField.style.borderColor = "red";
+          document.getElementById("sliderdot").style.display = "none";
+
         }
 
         // Policy page check
@@ -889,10 +938,13 @@
         const canonicalField = document.getElementById("hasCanonicalURL");
         if (hasCanonicalURL === "yes") {
           score += 10;
+
+          document.getElementById("hasCanonicaldot").style.display = "inline-block";
           canonicalField.style.borderColor = "green";
         } else {
           canonicalField.style.borderColor = "red";
           message += "Add canonical URL to your website. ";
+          document.getElementById("hasCanonicaldot").style.display = "none";
         }
 
         // Additional pages check
@@ -928,10 +980,15 @@
 
         if (hasInappropriateContent === "yes") {
           score += 10;
+          document.getElementById("Inappropriatedot").style.display = "inline-block";
+
           inappropriateContentField.style.borderColor = "green"; // Turn green for valid input
         } else {
-          message += "Remove inappropriate content from your website. ";
-          inappropriateContentField.style.borderColor = "red"; // Turn red for invalid input
+          message += "Remove inappropriate content from your website.";
+          inappropriateContentField.style.borderColor = "red";
+           // Turn red for invalid input
+           document.getElementById("Inappropriatedot").style.display = "none";
+
         }
 
         displayResult(score, message);
@@ -978,6 +1035,8 @@
         // Change circle color based on the score
         if (score >= 85) {
           progressCirclePath.style.stroke = "green"; // Green for score >= 85
+        } else if (score >= 50) {
+          progressCirclePath.style.stroke = "Orange"; // Green for score >= 85
         } else {
           progressCirclePath.style.stroke = "red"; // Red for score < 85
         }

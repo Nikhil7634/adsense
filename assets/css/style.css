@@ -9110,7 +9110,7 @@ blockquote cite {
   justify-content: center;
   align-items: center;
   text-align: center;
-
+  border-radius: 10px;
 }
 
 .results span{
@@ -9127,6 +9127,47 @@ blockquote cite {
 #scoreBox span{
   margin: 0 !important;
   
+}
+
+.contact-form > div{
+  position: relative;
+}
+ 
+#userForm > div{
+  position: relative;
+}
+.choosebox{
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+
+}
+.choosebox > div {
+  border-radius: 10px;
+    display: inline-block;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  zoom: 0.9;
+}
+
+.choosebox > div input{
+  height: 20px;
+  width: 20px;
+}
+.ulrdot{
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background: lime;
+  position: absolute;
+  right: -30px;
+  top: 48px;
+  border-radius: 50%;
+  display: none;
 }
 @media(max-width: 710px){
   .adsensebox{
@@ -9146,18 +9187,17 @@ blockquote cite {
   .contact-form{
     padding: 30px 15px;
   }
+  .ulrdot{
+    height: 15px;
+    width: 15px;
+    background: lime;
+    position: absolute;
+    right: -20px;
+    top: 53px;
+    border-radius: 50%;
+    display: none;
+  }
+  .choosebox > div {
+    zoom: 0.6;
+  }
 }
- 
-.choosebox{
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-
-}
-.choosebox > div input{
-   
-  border: 2px solid;
-  background: red;
-  display: inline-block;
-}
-
