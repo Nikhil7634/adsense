@@ -195,7 +195,7 @@
                 </ol>
               </nav>
               <div class="thumb">
-                <img  alt="" />
+                <img alt="" />
               </div>
             </div>
           </div>
@@ -284,9 +284,6 @@
               </select>
               <span class="ulrdot" id="sliderdot"></span>
 
-
-
-             
               <span id="sliderMessage"></span>
             </div>
             <div class="choosebox">
@@ -323,12 +320,10 @@
               </select>
 
               <span class="ulrdot" id="hasCanonicaldot"></span>
-              
 
-               <span id="canonicalURLMessage"></span>
+              <span id="canonicalURLMessage"></span>
             </div>
 
-            
             <div>
               <label for="hasInappropriateContent"
                 >Do you do image seo ?:</label
@@ -339,6 +334,29 @@
               </select>
               <span class="ulrdot" id="Inappropriatedot"></span>
               <span id="inappropriateContentMessage"></span>
+            </div>
+
+            
+
+            <div>
+              <label for="IndexingContent">Search Console (Indexing) :</label>
+              <select id="IndexingContent" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+              <span class="ulrdot" id="indexingdot"></span>
+              <span id="IndexingContentMessage"></span>
+            </div>
+
+             <div>
+              <label for="sitemapContent">Is there a site map in your website or not ?
+                :</label>
+              <select id="sitemapContent" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+              <span class="ulrdot" id="sitemapContentdot"></span>
+              <span id="sitemapContentMessage"></span>
             </div>
 
             <button
@@ -879,12 +897,12 @@
 
         // Traffic check
         if (traffic >= 5000) {
-          score += 15;
+          score += 10;
           document.getElementById("trafficdot").style.display = "inline-block";
 
           trafficField.style.borderColor = "green";
         } else if (traffic >= 1000) {
-          score += 10;
+          score += 5;
           document.getElementById("trafficdot").style.display = "inline-block";
           trafficField.style.borderColor = "green";
         } else if (traffic >= 500) {
@@ -898,11 +916,11 @@
 
         // Article check
         if (articles >= 30) {
-          score += 15;
+          score += 10;
           document.getElementById("articaldot").style.display = "inline-block";
           articlesField.style.borderColor = "green";
         } else if (articles >= 20) {
-          score += 10;
+          score += 5;
           document.getElementById("articaldot").style.display = "inline-block";
           articlesField.style.borderColor = "green";
         } else if (articles >= 10) {
@@ -922,7 +940,31 @@
         } else {
           sliderField.style.borderColor = "red";
           document.getElementById("sliderdot").style.display = "none";
+        }
 
+        const IndexingContent = document.getElementById("IndexingContent");
+        const IndexingContentvalue =
+          document.getElementById("IndexingContent").value;
+        if (IndexingContentvalue === "yes") {
+          score += 5;
+          IndexingContent.style.borderColor = "green";
+          document.getElementById("indexingdot").style.display = "inline-block";
+        } else {
+          IndexingContent.style.borderColor = "red";
+          document.getElementById("indexingdot").style.display = "none";
+        }
+
+
+        const sitemapContent = document.getElementById("sitemapContent");
+        const sitemapContentvalue =
+          document.getElementById("sitemapContent").value;
+        if (sitemapContentvalue === "yes") {
+          score += 5;
+          sitemapContent.style.borderColor = "green";
+          document.getElementById("sitemapContentdot").style.display = "inline-block";
+        } else {
+          sitemapContent.style.borderColor = "red";
+          document.getElementById("sitemapContentdot").style.display = "none";
         }
 
         // Policy page check
@@ -941,7 +983,8 @@
         if (hasCanonicalURL === "yes") {
           score += 10;
 
-          document.getElementById("hasCanonicaldot").style.display = "inline-block";
+          document.getElementById("hasCanonicaldot").style.display =
+            "inline-block";
           canonicalField.style.borderColor = "green";
         } else {
           canonicalField.style.borderColor = "red";
@@ -982,15 +1025,15 @@
 
         if (hasInappropriateContent === "yes") {
           score += 10;
-          document.getElementById("Inappropriatedot").style.display = "inline-block";
+          document.getElementById("Inappropriatedot").style.display =
+            "inline-block";
 
           inappropriateContentField.style.borderColor = "green"; // Turn green for valid input
         } else {
           message += "Remove inappropriate content from your website.";
           inappropriateContentField.style.borderColor = "red";
-           // Turn red for invalid input
-           document.getElementById("Inappropriatedot").style.display = "none";
-
+          // Turn red for invalid input
+          document.getElementById("Inappropriatedot").style.display = "none";
         }
 
         displayResult(score, message);
