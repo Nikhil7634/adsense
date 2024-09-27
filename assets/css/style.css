@@ -9115,14 +9115,15 @@ blockquote cite {
 
 .results span{
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 #scoreBox{
   margin-top: 10px;
    padding: 10px;
   border-radius: 10px;
- 
+
+ border: 1px solid;
 }
 #scoreBox span{
   margin: 0 !important;
@@ -9150,13 +9151,15 @@ blockquote cite {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  zoom: 0.9;
+   zoom: 0.9;
+   border: 1px solid;
+
 }
 
 .choosebox > div input{
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
 }
 .ulrdot{
   display: inline-block;
@@ -9205,4 +9208,8 @@ blockquote cite {
   #scoreBox {
     display: none;
   }
+}
+.choosebox > div label{
+  margin-bottom: 0px;
+  cursor: pointer;
 }

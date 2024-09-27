@@ -77,6 +77,59 @@
         font-size: 24px;
         font-weight: bold;
       }
+
+      input[type="checkbox"] {
+        /* Add if not using autoprefixer */
+        -webkit-appearance: none;
+        appearance: none;
+        /* For iOS < 15 to remove gradient background */
+        background-color: #fff;
+        /* Not removed via appearance */
+        margin: 0;
+      }
+
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+      }
+
+      input[type="checkbox"] {
+        /* ...existing styles */
+        display: grid;
+        place-content: center;
+      }
+
+      input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--form-control-color);
+      }
+
+      input[type="checkbox"]:checked::before {
+        transform: scale(1);
+        border-radius: 50%;
+      }
+      input[type="checkbox"]::before {
+        /* ...existing styles */
+
+        /* Windows High Contrast Mode */
+        background-color: CanvasText;
+      }
+
+      .contact-form{
+        font-family: Arial, Helvetica, sans-serif;
+      }
     </style>
   </head>
 
@@ -290,27 +343,23 @@
               <div>
                 <label for="hasPolicyPage">Privacy Policy:</label>
                 <input type="checkbox" id="hasPolicyPage" />
-                <label for="hasPolicyPage">Yes</label>
-                <span id="policyPageMessage"></span>
+                 <span id="policyPageMessage"></span>
               </div>
 
               <div>
                 <label for="aboutPage">About Us Page:</label>
                 <input type="checkbox" id="aboutPage" name="aboutPage" />
-                Yes
-              </div>
+               </div>
 
               <div>
                 <label for="contactPage">Contact Us Page:</label>
                 <input type="checkbox" id="contactPage" name="contactPage" />
-                Yes
-              </div>
+               </div>
 
               <div>
                 <label for="privacyPage">Term and Conditions:</label>
                 <input type="checkbox" id="privacyPage" name="privacyPage" />
-                Yes
-              </div>
+               </div>
             </div>
             <div style="margin-top: 30px">
               <label for="hasCanonicalURL">Has Canonical URL:</label>
@@ -336,8 +385,6 @@
               <span id="inappropriateContentMessage"></span>
             </div>
 
-            
-
             <div>
               <label for="IndexingContent">Search Console (Indexing) :</label>
               <select id="IndexingContent" required>
@@ -348,9 +395,10 @@
               <span id="IndexingContentMessage"></span>
             </div>
 
-             <div>
-              <label for="sitemapContent">Is there a site map in your website or not ?
-                :</label>
+            <div>
+              <label for="sitemapContent"
+                >Is there a site map in your website or not ? :</label
+              >
               <select id="sitemapContent" required>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
@@ -878,7 +926,7 @@
           document.getElementById("descriptiondot").style.display = "none";
 
           descriptionField.style.borderColor = "red"; // Turn red for invalid input
-          message += `Website description should be at least 450px wide (Current: ${descriptionWidth}px). `;
+          message += `<span style="zoom: 0.8;">Website description should be at least 450px wide (Current: ${descriptionWidth}px). </span>  <br>`;
           document.getElementById(
             "descriptionErrorMessage"
           ).innerText = `Description width is too short (${descriptionWidth}px).`;
@@ -954,14 +1002,14 @@
           document.getElementById("indexingdot").style.display = "none";
         }
 
-
         const sitemapContent = document.getElementById("sitemapContent");
         const sitemapContentvalue =
           document.getElementById("sitemapContent").value;
         if (sitemapContentvalue === "yes") {
           score += 5;
           sitemapContent.style.borderColor = "green";
-          document.getElementById("sitemapContentdot").style.display = "inline-block";
+          document.getElementById("sitemapContentdot").style.display =
+            "inline-block";
         } else {
           sitemapContent.style.borderColor = "red";
           document.getElementById("sitemapContentdot").style.display = "none";
@@ -975,7 +1023,7 @@
         } else {
           policyField.style.borderColor = "red";
           message +=
-            "Create a policy page including About Us, Contact Us, and Privacy Policy. <br>";
+            `<span style="zoom: 0.8;"> Create a policy page including About Us, Contact Us, and Privacy Policy. </span> <br>`;
         }
 
         // Canonical URL check
@@ -988,7 +1036,7 @@
           canonicalField.style.borderColor = "green";
         } else {
           canonicalField.style.borderColor = "red";
-          message += "Add canonical URL to your website. ";
+          message += ` <span style="zoom: 0.8;">Add canonical URL to your website. </span> <br>`;
           document.getElementById("hasCanonicaldot").style.display = "none";
         }
 
@@ -1030,7 +1078,7 @@
 
           inappropriateContentField.style.borderColor = "green"; // Turn green for valid input
         } else {
-          message += "Remove inappropriate content from your website.";
+          message += `<span style="zoom: 0.8;"> Remove inappropriate content from your website. </span> <br>`;
           inappropriateContentField.style.borderColor = "red";
           // Turn red for invalid input
           document.getElementById("Inappropriatedot").style.display = "none";
@@ -1043,13 +1091,13 @@
         const resultElement = document.getElementById("result");
         if (score >= 100) {
           resultElement.innerHTML =
-            '<span style="color: green; font-size: 24px;">Congratulations! Your website is likely to get AdSense approval.</span>';
+            '<span style="color: green; font-size: 24px;zoom: 0.8;"> Congratulations! Your website is likely to get AdSense approval.</span>';
         } else if (score >= 85) {
           resultElement.innerHTML =
-            '<span style="color: blue; font-size: 24px;">Your website is almost ready for AdSense approval.</span>';
+            '<span style="color: blue; font-size: 24px;zoom: 0.8;">Your website is almost ready for AdSense approval.</span>';
         } else {
           resultElement.innerHTML =
-            '<span style="color: red; font-size: 24px;">Your website may need improvements before applying for AdSense.</span>';
+            '<span style="color: red; font-size: 24px;zoom: 0.8;">Improve website before AdSense.</span>';
         }
         resultElement.innerHTML += "<br>" + message;
 
